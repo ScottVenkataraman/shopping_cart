@@ -1,5 +1,4 @@
 import type { ProductItem } from "../types";
-import { useState } from "react";
 
 interface ProductDetailsProps extends ProductItem {
   // onToggleEdit: () => void;
@@ -8,12 +7,12 @@ interface ProductDetailsProps extends ProductItem {
 }
 
 const ProductDetails = ({
-  _id,
+  // _id,
   title,
   price,
   quantity,
   // onToggleEdit, 
-  onDeleteProduct,
+  // onDeleteProduct,
   // onAddToCart,
 }: ProductDetailsProps) => {
 
@@ -26,7 +25,7 @@ const ProductDetails = ({
         {/* <button className="add-to-cart" disabled={quantity === 0} onClick={() => onAddToCart(_id)}>Add to Cart</button>
         <button className="edit" onClick={(onToggleEdit)}>Edit</button> */}
       </div>
-      <button className="delete-button" onClick={() => onDeleteProduct(_id)}><span>X</span></button>
+      {/* <button className="delete-button" onClick={() => onDeleteProduct(_id)}><span>X</span></button> */}
     </div>
   );
 };
