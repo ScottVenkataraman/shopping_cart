@@ -20,6 +20,8 @@ const Product = ({product, onDeleteProduct, onAddToCart, onUpdateProduct }: Prod
   return (
     <li className="product">
       <ProductDetails {...product} onToggleEdit={handleToggleEditProduct} onAddToCart={onAddToCart} onDeleteProduct={onDeleteProduct}/>
+      <button className="add-to-cart" disabled={product.quantity === 0} onClick={() => onAddToCart(product._id)}>Add to Cart</button>
+      <button className="edit" onClick={(handleToggleEditProduct)}>Edit</button>
       {isEditing && (<EditProductForm product={product} onUpdateProduct={onUpdateProduct} onToggleEdit={handleToggleEditProduct}/>)}
     </li>
   )

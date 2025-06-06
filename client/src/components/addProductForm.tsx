@@ -9,22 +9,22 @@ interface AddProductFormProps {
 
 const AddProductForm = ({ onToggleForm, onAddProduct }: AddProductFormProps) => {
   const [title, setTitle] = useState<string>("");
-  const [price, setPrice] = useState<number | null>(null);
-  const [quantity, setQuantity] = useState<number | null>(null);
+  const [price, setPrice] = useState<string | undefined>("");
+  const [quantity, setQuantity] = useState<string | undefined>("");
 
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
     const newProduct = {
       title,
-      price,
-      quantity,
+      price: Number(price),
+      quantity: Number(quantity),
     };
     onAddProduct(newProduct, onToggleForm);
   };
 
   return (
     <div className="add-form">
-      <form>
+      <form aria-label="Add product form">
         <div className="input-group">
           <label htmlFor="product-name">Product Name:</label>
           <input 
@@ -44,7 +44,7 @@ const AddProductForm = ({ onToggleForm, onAddProduct }: AddProductFormProps) => 
             min="0"
             step="0.01"
             value={price}
-            onChange={(event) => setPrice(+event.target.value)}
+            onChange={(event) => setPrice(event.target.value)}
             required
           />
         </div>
@@ -56,7 +56,7 @@ const AddProductForm = ({ onToggleForm, onAddProduct }: AddProductFormProps) => 
             name="product-quantity"
             min="0"
             value={quantity}
-            onChange={(event) => setQuantity(+event.target.value)}
+            onChange={(event) => setQuantity(event.target.value)}
             required
           />
         </div>
