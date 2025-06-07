@@ -1,10 +1,10 @@
 import type { ProductItem } from "../types";
 
-interface ProductDetailsProps extends ProductItem {
+// interface ProductDetailsProps extends ProductItem {
   // onToggleEdit: () => void;
   // onAddToCart: (productId: string) => void;
-  onDeleteProduct: (productId: string) => void;
-}
+  // onDeleteProduct: (productId: string) => void;
+// }
 
 const ProductDetails = ({
   // _id,
@@ -14,7 +14,7 @@ const ProductDetails = ({
   // onToggleEdit, 
   // onDeleteProduct,
   // onAddToCart,
-}: ProductDetailsProps) => {
+}: ProductItem) => {
 
   return (
     <div className="product-details">

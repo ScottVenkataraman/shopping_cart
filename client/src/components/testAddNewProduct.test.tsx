@@ -1,12 +1,11 @@
 import React from "react";
-import { describe, test, it, expect, vi } from "vitest";
+import { test, expect, vi, afterEach } from "vitest";
 import { render, screen} from "@testing-library/react";
 import userEvent from '@testing-library/user-event';
 import App from "../App";
-import ProductDetails from "./productDetails";
 // Imports the functions from the services file 
 import { deleteProduct, getProducts, updateProduct, getCartItems, addItemToCart, addNewProduct } from "../services";
-import ProductDetails from "./productDetails";
+import Product from "./product";
 
 
 const products = [
@@ -63,20 +62,24 @@ afterEach(() => {
 });
 
 test("Form is not present before add button is clicked", async () => {
-  mockGetProducts.mockResolvedValue(products);
-  mockGetCartItems.mockResolvedValue(cart);
+  // mockGetProducts.mockResolvedValue(products);
+  // mockGetCartItems.mockResolvedValue(cart);
+  mockGetProducts.mockImplementation(() => Promise.resolve(products));
+  mockGetCartItems.mockImplementation(() => Promise.resolve(cart));
   render(<App />);
 
-  const form = await screen.queryByRole('form');
+  const form = screen.queryByRole('form');
   expect(form).not.toBeInTheDocument();
 });
 
 test("Form displays when 'Add button' is clicked", async () => {
-  mockGetProducts.mockResolvedValue(products);
-  mockGetCartItems.mockResolvedValue(cart);
+  // mockGetProducts.mockResolvedValue(products);
+  // mockGetCartItems.mockResolvedValue(cart);
+  mockGetProducts.mockImplementation(() => Promise.resolve(products));
+  mockGetCartItems.mockImplementation(() => Promise.resolve(cart));
   render(<App />);
 
-  const addButton = screen.getByText("Add A Product");
+  const addButton = await screen.findByText("Add A Product");
   await userEvent.click(addButton);
   const form = await screen.findByRole('form');
   expect(form).toBeInTheDocument();
@@ -84,32 +87,31 @@ test("Form displays when 'Add button' is clicked", async () => {
 });
 
 test("Cart items display correctly when app renders", async () => {
-  mockGetProducts.mockResolvedValue(products);
-  mockGetCartItems.mockResolvedValue(cart);
+  // mockGetProducts.mockResolvedValue(products);
+  // mockGetCartItems.mockResolvedValue(cart);
+  mockGetProducts.mockImplementation(() => Promise.resolve(products));
+  mockGetCartItems.mockImplementation(() => Promise.resolve(cart));
   render(<App />);
 
   const cartTable = await screen.findByRole('table');
   expect(cartTable).toBeInTheDocument(); 
   expect(cartTable).toHaveTextContent("Baseball Bat");
   expect(cartTable).toHaveTextContent("Apple 10.5-Inch iPad Pro");
+  expect(cartTable).toHaveTextContent("left in stock");
 });
 
 test("Edit Form displays when edit is clicked", async () => {
-  mockGetProducts.mockResolvedValue(products);
-  mockGetCartItems.mockResolvedValue(cart);
   const product = products[0];
-  render(<ProductDetails {...product} onDeleteProduct={vi.fn()} onAddToCart={vi.fn()} onToggleEdit={vi.fn()} />);
-  const editProductButton = await screen.findByRole('button', {name: 'Edit'});
+  render(<Product product={product} onDeleteProduct={vi.fn()} onAddToCart={vi.fn()} onUpdateProduct={vi.fn()}/>);
+  const editProductButton = screen.getByRole('button', {name: 'Edit'});
   expect(editProductButton).toBeInTheDocument();
   
   await userEvent.click(editProductButton);
-  const heading = await screen.findByRole('heading', {level: 3});
-  expect(heading).toHaveTextContent('Edit Product');
-  // const form = await screen.findByRole('form');
-  // expect(form).toBeInTheDocument();
-  // expect(screen.getByRole('form')).toHaveTextContent('Edit Product');
+  // const heading = await screen.findByRole('heading', {level: 3});
+  // expect(heading).toHaveTextContent('Edit Product');
+  const form = await screen.findByRole('form');
+  expect(form).toBeInTheDocument();
+  expect(form).toHaveTextContent('Product Name:');
+  expect(form).toHaveTextContent('Price:');
+  expect(form).toHaveTextContent('Quantity:');
 });
-
-
-
-
