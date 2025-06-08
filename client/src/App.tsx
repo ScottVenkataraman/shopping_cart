@@ -73,7 +73,7 @@ function App() {
 
   const handleAddToCart = async (productId: string) => {
     const product = products.filter((product) => product._id === productId)[0];
-    const existingItem = cartItems.filter((cartItem) => cartItem._id === productId)[0];
+    const existingItem = cartItems.filter((cartItem) => cartItem.productId === productId)[0];
     if (!product || product.quantity === 0) return;
     try {
       const { product: updatedProduct, item } = await addItemToCart(productId);
