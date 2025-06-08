@@ -144,23 +144,22 @@ test("Nothing in cart before items added to cart", async () => {
 // });
 
 // Not Done
-// test("Deleting a product removes it", async () => {
-//   mockGetProducts.mockImplementation(() => Promise.resolve([{_id: "1",
-//   title: "Super cool robot",
-//   quantity: 5,
-//   price: 79.99,
-// }]));
-//   mockGetCartItems.mockImplementation(() => Promise.resolve([]));
-//   mockDeleteProduct.mockImplementation(() => Promise.resolve(null));
-//   render(<App />);
-//   const robotProduct = await screen.findByText("Super cool robot");
-//   expect(robotProduct).toBeInTheDocument();
-//   const deleteButton = await screen.findByRole('button', {name: 'X'});
-//   expect(deleteButton).toBeInTheDocument();
-//   await userEvent.click(deleteButton);
-//   mockGetProducts.mockImplementation(() => Promise.resolve([]));
-//   await waitFor(() => {
-//   expect(screen.queryByText("Super cool robot")).not.toBeInTheDocument();
-// });
-//   expect(robotProduct).not.toBeInTheDocument();
-// });
+test("Deleting a product removes it", async () => {
+  mockGetProducts.mockImplementation(() => Promise.resolve([{_id: "1",
+  title: "Super cool robot",
+  quantity: 5,
+  price: 79.99,
+}]));
+  mockGetCartItems.mockImplementation(() => Promise.resolve([]));
+  mockDeleteProduct.mockImplementation(() => Promise.resolve(null));
+  render(<App />);
+
+  const robotProduct = await screen.findByText("Super cool robot");
+  expect(robotProduct).toBeInTheDocument();
+  const deleteButton = await screen.findByRole('button', {name: 'X'});
+  expect(deleteButton).toBeInTheDocument();
+  
+  await userEvent.click(deleteButton);
+  mockGetProducts.mockImplementation(() => Promise.resolve([]));
+  expect(robotProduct).not.toBeInTheDocument();
+});
