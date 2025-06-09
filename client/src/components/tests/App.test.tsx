@@ -224,18 +224,15 @@ test("Clicking checkout clears the cart.", async () => {
   mockCheckout.mockResolvedValue(null);
 
   render(<App/>);
-
-  const checkoutButton = screen.getByRole('button', {name: 'Checkout'});
+  const checkoutButton = await screen.findByTestId("checkout-with-items");
+  
   expect(checkoutButton).toBeInTheDocument();
-  const cartItem = await screen.findByText("Baseball Bat");
+  const cartItem = await screen.findByText(/Baseball Bat/i);
   expect(cartItem).toBeInTheDocument();
   // expect(cartItem).toBeVisible();
 
   await userEvent.click(checkoutButton);
   mockGetCartItems.mockResolvedValue([]);
 
-  // const newCartItem = screen.queryByText("Baseball Bat");
   expect(cartItem).not.toBeInTheDocument();
-  
-  // expect(cartItem).not.toBeVisible();
 });

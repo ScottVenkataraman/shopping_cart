@@ -59,7 +59,7 @@ const Cart = ({cartItems, onCheckout}: CartProps) => {
           <h2>Your Cart</h2>
           {cartWithItems()}
           <div className="checkout-button">
-            <button className="checkout" onClick={onCheckout}>Checkout</button>
+            <button className="checkout" data-testid="checkout-with-items" onClick={onCheckout}>Checkout</button>
           </div>
         </header>
       </>
@@ -73,7 +73,7 @@ const Cart = ({cartItems, onCheckout}: CartProps) => {
           <p>Your cart is empty</p>
           <p>Total: $0</p>
           <div className="checkout-button">
-            <button className="checkout">Checkout</button>
+            <button className="checkout" data-testid="checkout-without-items">Checkout</button>
           </div>
         </header>
         </>
