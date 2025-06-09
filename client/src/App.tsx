@@ -28,10 +28,44 @@ interface SetAction {
   products: Array<ProductItem>;
 }
 
-// function cartReducer() {
-  
+interface SetCart {
+  type: "SetCart";
+  cartItems: CartItem[];
+}
 
-// }
+interface AddToCart {
+  type: "AddToCart";
+  item: CartItem;
+  existingItem: CartItem;
+}
+
+interface EmptyCart {
+  type: "EmptyCart";
+}
+
+function cartReducer(cart: CartItem[], action: SetCart | AddToCart | EmptyCart) {
+  switch(action.type) {
+    case 'SetCart': {
+      return action.cartItems;
+    }
+    case 'AddToCart': {
+      if (action.existingItem) {
+        return cart.map((cartItem) => {
+          if (cartItem.productId === action.item._id) {
+            return action.item;
+          } else {
+          return cartItem;
+          }
+        });
+      } else {
+        return cart.concat(action.item);
+      }
+    }
+    case 'EmptyCart': {
+      return [];
+    }
+  }
+}
 
 function productsReducer(products: ProductItem[], action: DeleteAction | UpdateAction | SetAction | AddAction) {
   switch (action.type) {
@@ -57,10 +91,8 @@ function productsReducer(products: ProductItem[], action: DeleteAction | UpdateA
 }
 
 function App() {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  // const [products, setProducts] = useState<ProductItem[]>([]);
   const [products, productDispatch] = useReducer(productsReducer, []);
-  // const [cartItems, cartDispatch] = useReducer(cartReducer, []);
+  const [cartItems, cartDispatch] = useReducer(cartReducer, []);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -69,14 +101,16 @@ function App() {
         type: 'SetProducts',
         products: data,
       });
-    // setProducts(data);
     };
   
     const fetchCartItems = async () => {
       const data = await getCartItems();
-        setCartItems(data);
+      cartDispatch({
+        type: 'SetCart',
+        cartItems: data,
+      });
       }
-      
+
     try {
       fetchProducts();
       fetchCartItems();
@@ -84,16 +118,6 @@ function App() {
       console.error(e);
     }
   }, []);
-
- /*
-  function handleAddTask(text) {
-  dispatch({
-    type: 'added',
-    id: nextId++,
-    text: text,
-  });
-}
-  */
 
   const handleAddProduct = async (
     newProduct: ProductItem,
@@ -105,7 +129,6 @@ function App() {
         type: 'AddProduct',
         product: data,
       });
-    // setProducts((prev) => prev.concat(data));
       if (callback){
         callback();
       }
@@ -121,7 +144,6 @@ function App() {
         type: 'DeleteProduct',
         id: productId,
       });
-  // setProducts((prev) => prev.filter((product) => product._id !== productId));
     } catch (e) {
       console.error(e);
     }
@@ -135,15 +157,6 @@ function App() {
         updatedProduct: data,
         productId: productId,
       });
-    // setProducts((prev) => {
-    //   return prev.map(product => {
-    //     if (product._id === data._id) {
-    //  return data;
-    //     } else {
-    //  return product;
-    //     }
-    //   })
-    // })
     } catch (error) {
       console.error(error);
     }
@@ -160,27 +173,10 @@ function App() {
         updatedProduct: updatedProduct,
         productId: productId,
       });
-      // setProducts((prev) => {
-      //   return prev.map((product) => {
-      //     if (product._id === updatedProduct._id) {
-      //       return updatedProduct;
-      //     } else {
-      //       return product;
-      //     }
-      //   });
-      // });
-      setCartItems((prev) => {
-        if (existingItem) {
-          return prev.map((cartItem) => {
-            if (cartItem.productId === productId) {
-              return item;
-            } else {
-              return cartItem;
-            }
-          });
-        } else {
-          return prev.concat(item);
-        }
+      cartDispatch({
+        type: "AddToCart",
+        item: item,
+        existingItem: existingItem,
       });
     } catch (e) {
       console.error(e);
@@ -189,10 +185,10 @@ function App() {
 
   const handleCheckout = async () => {
     await checkout();
-    setCartItems([]);
+    cartDispatch({
+      type: "EmptyCart",
+    });
   }
-
-  
 
   return (
     <div id="app">
