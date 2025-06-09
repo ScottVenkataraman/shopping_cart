@@ -232,7 +232,7 @@ test("Clicking checkout clears the cart.", async () => {
   // expect(cartItem).toBeVisible();
 
   await userEvent.click(checkoutButton);
-  mockGetCartItems.mockResolvedValue([]);
+  // mockGetCartItems.mockResolvedValue([]);
 
   expect(cartItem).not.toBeInTheDocument();
 });
