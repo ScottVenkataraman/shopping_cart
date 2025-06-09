@@ -106,6 +106,7 @@ function App() {
 
   const handleCheckout = async () => {
     await checkout();
+    console.log('hi from checkout');
     setCartItems([]);
   }
 
