@@ -14,6 +14,12 @@ const ProductsList = ({ products, onDeleteProduct, onAddToCart, onUpdateProduct 
   return (
     <div className="product-listing">
       <h2>Products</h2>
+      <div>
+        <h3>Sort By</h3>
+        <button>Name</button>
+        <button>Price</button>
+        <button>Quantity</button>
+      </div>
       <ul className="product-list">
         {products.map((product) => (
           <Product key={product._id} product={product} onUpdateProduct={onUpdateProduct} onAddToCart={onAddToCart} onDeleteProduct={onDeleteProduct}/>

@@ -6,89 +6,9 @@ import ToggleableAddProductForm from './components/toggleableAddProductForm';
 import type { ProductItem, CartItem } from './types';
 import { getProducts, getCartItems, updateProduct, addItemToCart, addNewProduct, deleteProduct, checkout } from './services';
 import { check } from 'zod/v4';
-  
-interface AddAction {
-  type: "AddProduct";
-  product: ProductItem;
-}
+import { productsReducer } from './reducers/productReducer';
+import { cartReducer } from './reducers/cartReducer';
 
-interface DeleteAction {
-  type: "DeleteProduct";
-  id: string;
-}
-
-interface UpdateAction {
-  type: "UpdateProduct";
-  updatedProduct: ProductItem;
-  productId: string;
-}  
-
-interface SetAction {
-  type: "SetProducts";
-  products: Array<ProductItem>;
-}
-
-interface SetCart {
-  type: "SetCart";
-  cartItems: CartItem[];
-}
-
-interface AddToCart {
-  type: "AddToCart";
-  item: CartItem;
-  existingItem: CartItem;
-}
-
-interface EmptyCart {
-  type: "EmptyCart";
-}
-
-function cartReducer(cart: CartItem[], action: SetCart | AddToCart | EmptyCart) {
-  switch(action.type) {
-    case 'SetCart': {
-      return action.cartItems;
-    }
-    case 'AddToCart': {
-      if (action.existingItem) {
-        return cart.map((cartItem) => {
-          if (cartItem.productId === action.item._id) {
-            return action.item;
-          } else {
-          return cartItem;
-          }
-        });
-      } else {
-        return cart.concat(action.item);
-      }
-    }
-    case 'EmptyCart': {
-      return [];
-    }
-  }
-}
-
-function productsReducer(products: ProductItem[], action: DeleteAction | UpdateAction | SetAction | AddAction) {
-  switch (action.type) {
-    case 'DeleteProduct': {
-      return products.filter((product: ProductItem) => product._id !== action.id);
-    }
-    case 'AddProduct': {
-      return products.concat(action.product);
-    }
-    case 'UpdateProduct': {
-      return products.map(product => {
-        if (product._id === action.updatedProduct._id) {
-          return action.updatedProduct;
-        } else {
-          return product;
-        }
-      });
-    }
-    case 'SetProducts': {
-      return action.products;
-    }
-  }
-}
 
 function App() {
   const [products, productDispatch] = useReducer(productsReducer, []);
