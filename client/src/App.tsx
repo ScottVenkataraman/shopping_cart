@@ -1,4 +1,4 @@
-import { useEffect, useState, useReducer } from 'react'
+import { useEffect, useState, useReducer, useActionState } from 'react'
 import './index.css'
 import Cart from "./components/cart";
 import ProductsList from "./components/productList";
@@ -8,6 +8,8 @@ import { getProducts, getCartItems, updateProduct, addItemToCart, addNewProduct,
 import { check } from 'zod/v4';
 import { productsReducer } from './reducers/productReducer';
 import { cartReducer } from './reducers/cartReducer';
+import { keyboard } from '@testing-library/user-event/dist/cjs/keyboard/index.js';
+import type { SortingKey, SortingDirection } from './reducers/productReducer';
 
 
 function App() {
@@ -110,6 +112,14 @@ function App() {
     });
   }
 
+  const handleSortProducts = (key: SortingKey, direction: SortingDirection) => {
+    productDispatch({
+      type: "SortProducts",
+      key: key,
+      sortDirection: direction,
+    });
+  }
+
   return (
     <div id="app">
       <Cart onCheckout={handleCheckout} cartItems={cartItems} />
@@ -118,6 +128,7 @@ function App() {
         onUpdateProduct={handleUpdateProduct}
         onDeleteProduct={handleDeleteProduct}
         onAddToCart={handleAddToCart}
+        onSort={handleSortProducts}
       />
       <ToggleableAddProductForm onAddProduct={handleAddProduct}/>
     </div>

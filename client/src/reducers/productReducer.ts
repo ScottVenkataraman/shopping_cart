@@ -1,4 +1,4 @@
-import type { ProductItem } from "../../types";
+import type { ProductItem } from "../types";
 
 export interface AddAction {
   type: "AddProduct";
@@ -23,7 +23,6 @@ export interface SetAction {
 
 export interface SortAction {
   type: "SortProducts";
-  products: ProductItem[];
   key: SortingKey;
   sortDirection: SortingDirection;
 }
@@ -58,7 +57,7 @@ export const sortProducts = (products: ProductItem[], key: SortingKey, direction
         } else return 0;
       }
     }
-  })
+  });
 }
 
 export function productsReducer(products: ProductItem[], action: DeleteAction | UpdateAction | SetAction | AddAction | SortAction) {
@@ -82,13 +81,11 @@ export function productsReducer(products: ProductItem[], action: DeleteAction | 
       return action.products;
     }
     case 'SortProducts': {
-      return {
-        items: sortProducts(
-          products,
-          action.key,
-          action.sortDirection,
-        ), 
-      }
+      return sortProducts(
+        products,
+        action.key,
+        action.sortDirection,
+      );
     }
   }
 }
