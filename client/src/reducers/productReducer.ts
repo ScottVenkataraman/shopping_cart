@@ -1,27 +1,27 @@
 import type { ProductItem } from "../types";
 
-export interface AddAction {
+export interface ADD_ACTION {
   type: "AddProduct";
   product: ProductItem;
 }
 
-export interface DeleteAction {
+export interface DELETE_ACTION {
   type: "DeleteProduct";
   id: string;
 }
 
-export interface UpdateAction {
+export interface UPDATE_ACTION {
   type: "UpdateProduct";
   updatedProduct: ProductItem;
   productId: string;
 }  
 
-export interface SetAction {
+export interface SET_ACTION {
   type: "SetProducts";
   products: Array<ProductItem>;
 }
 
-export interface SortAction {
+export interface SORT_ACTION {
   type: "SortProducts";
   key: SortingKey;
   sortDirection: SortingDirection;
@@ -60,7 +60,7 @@ export const sortProducts = (products: ProductItem[], key: SortingKey, direction
   });
 }
 
-export function productsReducer(products: ProductItem[], action: DeleteAction | UpdateAction | SetAction | AddAction | SortAction) {
+export function productsReducer(products: ProductItem[], action: DELETE_ACTION | UPDATE_ACTION | SET_ACTION | ADD_ACTION | SORT_ACTION) {
   switch (action.type) {
     case 'DeleteProduct': {
       return products.filter((product: ProductItem) => product._id !== action.id);

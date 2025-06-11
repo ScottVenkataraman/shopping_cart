@@ -1,3 +1,6 @@
+import { CurrencyContext } from "../providers/currencyProvider";
+import { useContext } from "react";
+
 interface CartItem {
     _id: string,
     productId: string,
@@ -12,22 +15,23 @@ interface CartProps {
 }
 
 const Cart = ({cartItems, onCheckout}: CartProps) => {
+  const { currency } = useContext(CurrencyContext);
   function renderCart() {
     return (
       cartItems.map(item => (
         <tr key={item._id}>
           <td>{item.title}</td>
           <td>{item.quantity}</td>
-          <td>{item.price}</td>
+          <td>{currency === "USD" ? item.price : (item.price * 2.2).toFixed(2)}</td>
         </tr>
       ))
     );
   }
 
-  function cartTotal(): number | undefined {
+  function cartTotal(): number {
     if (cartItems.length <= 0) return 0;
-    const total = cartItems.reduce((acc: number, curr: CartItem) => acc + curr.price, 0);
-    return total;
+    const total = cartItems.reduce((acc: number, curr: CartItem) => acc + (curr.price * curr.quantity), 0);
+    return currency === "USD" ? total : total * 2.2;
   }
 
   function cartWithItems() {
@@ -45,7 +49,7 @@ const Cart = ({cartItems, onCheckout}: CartProps) => {
             {renderCart()}
           </tbody>
       </table>
-        <p>Total: ${cartTotal()}</p>
+        <p>Total: {currency === "USD" ? `$${cartTotal()}` : `€${cartTotal()}`}</p>
       </>
     )
   }
@@ -71,7 +75,7 @@ const Cart = ({cartItems, onCheckout}: CartProps) => {
           <h1>The Shop!</h1>
           <h2>Your Cart</h2>
           <p>Your cart is empty</p>
-          <p>Total: $0</p>
+          <p>Total: {currency === "USD" ? "$0.00" : "€0.00"}</p>
           <div className="checkout-button">
             <button className="checkout" data-testid="checkout-without-items">Checkout</button>
           </div>

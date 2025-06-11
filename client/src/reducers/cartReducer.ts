@@ -1,4 +1,4 @@
-import type { CartItem } from "../../types";
+import type { CartItem } from "../types";
 
 export interface SetCart {
   type: "SetCart";
@@ -23,7 +23,7 @@ export function cartReducer(cart: CartItem[], action: SetCart | AddToCart | Empt
     case 'AddToCart': {
       if (action.existingItem) {
         return cart.map((cartItem) => {
-          if (cartItem.productId === action.item._id) {
+          if (cartItem.productId === action.item.productId) {
             return action.item;
           } else {
           return cartItem;

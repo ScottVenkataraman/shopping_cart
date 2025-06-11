@@ -1,20 +1,23 @@
-import { useEffect, useState, useReducer, useActionState } from 'react'
+import { useEffect, useReducer, useContext } from 'react'
 import './index.css'
 import Cart from "./components/cart";
 import ProductsList from "./components/productList";
 import ToggleableAddProductForm from './components/toggleableAddProductForm';
-import type { ProductItem, CartItem } from './types';
+import { ToggleableThemeButton } from './components/ToggleableThemeButton';
+import { ToggleableCurrencyButton } from './components/toggleableCurrencyButton';
+import type { ProductItem } from './types';
 import { getProducts, getCartItems, updateProduct, addItemToCart, addNewProduct, deleteProduct, checkout } from './services';
-import { check } from 'zod/v4';
 import { productsReducer } from './reducers/productReducer';
 import { cartReducer } from './reducers/cartReducer';
-import { keyboard } from '@testing-library/user-event/dist/cjs/keyboard/index.js';
 import type { SortingKey, SortingDirection } from './reducers/productReducer';
-
+import { ThemeContext } from './providers/themeProvider';
+import { CurrencyProvider } from './providers/currencyProvider';
 
 function App() {
   const [products, productDispatch] = useReducer(productsReducer, []);
   const [cartItems, cartDispatch] = useReducer(cartReducer, []);
+  
+  const { theme } = useContext(ThemeContext);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -121,15 +124,19 @@ function App() {
   }
 
   return (
-    <div id="app">
-      <Cart onCheckout={handleCheckout} cartItems={cartItems} />
-      <ProductsList
-        products={products}
-        onUpdateProduct={handleUpdateProduct}
-        onDeleteProduct={handleDeleteProduct}
-        onAddToCart={handleAddToCart}
-        onSort={handleSortProducts}
-      />
+    <div id="app" className={theme}>
+      <ToggleableThemeButton />
+      <CurrencyProvider>
+        <ToggleableCurrencyButton />
+        <Cart onCheckout={handleCheckout} cartItems={cartItems} />
+        <ProductsList
+          products={products}
+          onUpdateProduct={handleUpdateProduct}
+          onDeleteProduct={handleDeleteProduct}
+          onAddToCart={handleAddToCart}
+          onSort={handleSortProducts}
+        />
+      </CurrencyProvider>
       <ToggleableAddProductForm onAddProduct={handleAddProduct}/>
     </div>
   );

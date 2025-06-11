@@ -48,6 +48,77 @@ header h2 {
   text-align: center;
 }
 
+/* Theme Specific Styles */
+
+.light {
+  --bg-body: #fff;
+  --bg-primary: #c4dfe6;
+  --bg-header: #07575b;
+  --text-primary: #000;
+  --text-header: #fff;
+  --card-bg: #fff;
+  --button-bg: #07575b;
+  --button-text: #fff;
+}
+
+.dark {
+  --bg-body: #121920;
+  --bg-primary: #1e2a3a;
+  --bg-header: #2c4356;
+  --text-primary: #e1e7ec;
+  --text-header: #fff;
+  --card-bg: #2c3e50;
+  --button-bg: #3498db;
+  --button-text: #fff;
+  --price-color: #ff9eb1;
+}
+
+body {
+  background-color: var(--bg-body);
+  margin: 0;
+  min-height: 100vh;
+}
+
+#app {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+header {
+  background: var(--bg-header);
+  color: var(--text-header);
+}
+
+main {
+  background: var(--bg-primary);
+}
+
+.product {
+  background: var(--card-bg);
+  color: var(--text-primary);
+}
+
+.product .price {
+  color: var(--price-color);
+}
+
+button {
+  background: var(--button-bg);
+  color: var(--button-text);
+}
+
+.sort-button {
+  border-color: var(--button-bg);
+  color: var(--button-bg);
+}
+
+.sort-button:hover,
+.sort-button.active {
+  background: var(--button-bg);
+  color: var(--button-text);
+}
+
+
 .product {
   background: #fff;
   padding: 14px;

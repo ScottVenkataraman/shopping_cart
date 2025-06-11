@@ -1,31 +1,23 @@
 import type { ProductItem } from "../types";
-
-// interface ProductDetailsProps extends ProductItem {
-  // onToggleEdit: () => void;
-  // onAddToCart: (productId: string) => void;
-  // onDeleteProduct: (productId: string) => void;
-// }
+import { useContext } from "react";
+import { CurrencyContext } from "../providers/currencyProvider";
 
 const ProductDetails = ({
-  // _id,
   title,
   price,
   quantity,
-  // onToggleEdit, 
-  // onDeleteProduct,
-  // onAddToCart,
 }: ProductItem) => {
+
+  const { currency } = useContext(CurrencyContext);
+  const finalPrice = currency === "USD" ? `$${price}` : `€${price * 2.2}`;
 
   return (
     <div className="product-details">
       <h3>{title}</h3>
-      <p className="price">${price}</p>
+      <p className="price">{finalPrice}</p>
       <p className="quantity">{quantity} left in stock</p>
       <div className="actions product-actions">
-        {/* <button className="add-to-cart" disabled={quantity === 0} onClick={() => onAddToCart(_id)}>Add to Cart</button>
-        <button className="edit" onClick={(onToggleEdit)}>Edit</button> */}
       </div>
-      {/* <button className="delete-button" onClick={() => onDeleteProduct(_id)}><span>X</span></button> */}
     </div>
   );
 };
