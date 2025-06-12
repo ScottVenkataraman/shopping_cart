@@ -1,6 +1,8 @@
 import { CurrencyContext } from "../providers/currencyProvider";
 import { useContext } from "react";
 
+// The cart makes use of useContext and the CurrencyContext to manage the currency of the cart items and total
+
 interface CartItem {
     _id: string,
     productId: string,

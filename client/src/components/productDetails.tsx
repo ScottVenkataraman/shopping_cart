@@ -1,7 +1,8 @@
 import type { ProductItem } from "../types";
 import { useContext } from "react";
 import { CurrencyContext } from "../providers/currencyProvider";
-
+// The productDetails component makes use of useContext and the CurrencyContext 
+// to manage the currency of the product items
 const ProductDetails = ({
   title,
   price,

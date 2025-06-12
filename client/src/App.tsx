@@ -13,6 +13,9 @@ import type { SortingKey, SortingDirection } from './reducers/productReducer';
 import { ThemeContext } from './providers/themeProvider';
 import { CurrencyProvider } from './providers/currencyProvider';
 
+// The app component makes use of useReducer to make a reducer for the products and cart functionalities 
+// It also makes use of useContext to manage the light/dark themes
+
 function App() {
   const [products, productDispatch] = useReducer(productsReducer, []);
   const [cartItems, cartDispatch] = useReducer(cartReducer, []);
