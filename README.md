@@ -1,5 +1,13 @@
 # Shopping Cart App
 
+## Scott's Notes:
+- This shopping cart app runs a backend server that makes use of:
+  -- MongoDB Atlas server via internet connection
+  -- Vite for client server set up
+  -- useState, useEffect, useReducer, and useContext for React
+  -- zod for the services.ts file 
+
+
 ## Setup
 
 1. Install [Node.js](https://nodejs.org/en/download/package-manager/) if you haven't already

@@ -57,13 +57,6 @@ const mockAddToCart = vi.mocked(addItemToCart, true);
 const mockAddNewProduct = vi.mocked(addNewProduct, true);
 const mockCheckout = vi.mocked(checkout, true);
 
-// Cleans up your mocks so they don't propagate from one test to the next
-  // Define before your tests ?
-// afterEach(() => {
-//   vi.resetAllMocks();
-// });
-
-
 test("Form is not present before add button is clicked", async () => {
   mockGetProducts.mockResolvedValue(products);
   mockGetCartItems.mockResolvedValue(cart);
@@ -186,7 +179,6 @@ test("Deleting a product removes it", async () => {
   expect(deleteButton).toBeInTheDocument();
   
   await userEvent.click(deleteButton);
-  // mockGetProducts.mockResolvedValue([]);
   expect(robotProduct).not.toBeInTheDocument();
 });
 
@@ -217,7 +209,6 @@ test("Deleting a product removes it", async () => {
 // });
 
 
-// Not done 
 test("Clicking checkout clears the cart.", async () => {
   mockGetCartItems.mockResolvedValue(cart);
   mockGetProducts.mockResolvedValue([]);
@@ -229,10 +220,8 @@ test("Clicking checkout clears the cart.", async () => {
   expect(checkoutButton).toBeInTheDocument();
   const cartItem = await screen.findByText(/Baseball Bat/i);
   expect(cartItem).toBeInTheDocument();
-  // expect(cartItem).toBeVisible();
 
   await userEvent.click(checkoutButton);
-  // mockGetCartItems.mockResolvedValue([]);
 
   expect(cartItem).not.toBeInTheDocument();
 });
