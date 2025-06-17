@@ -1,13 +1,10 @@
 import React from "react";
-import { test, expect, vi, afterEach } from "vitest";
+import { test, expect, vi } from "vitest";
 import { render, screen, waitFor} from "@testing-library/react";
 import userEvent from '@testing-library/user-event';
 import App from "../../App";
 import { deleteProduct, getProducts, updateProduct, getCartItems, addItemToCart, checkout, addNewProduct } from "../../services";
 import Product from "../product";
-import AddProductForm from "../addProductForm";
-import Cart from "../cart";
-
 
 const products = [
     {
